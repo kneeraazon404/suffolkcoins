@@ -1,6 +1,9 @@
 {% extends "base.html" %} {% block content %}
-
-<h1>Inventory Data</h1>
-<a href="{{ pdf_path }}" download>Download PDF</a>
-
+<div class="max-w-7xl mx-auto text-center py-32 ">
+    <h1 class="text-3xl font-bold text-indigo-950 py-4">Inventory Data For Download in PDF format</h1>
+    <br><br>
+    <button class="btn bg-indigo-700 text-white px-6 py-2 rounded-md">
+        <a href="{{ pdf_path }}" download>Download PDF</a><a href="{{ pdf_path }}" download>Download PDF</a>
+    </button>
+</div>
 {% endblock %}

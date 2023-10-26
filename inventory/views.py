@@ -1,67 +1,96 @@
-from django.shortcuts import render
 import gspread
+from django.core.files import File
+from django.shortcuts import render
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import landscape, letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import (
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+    PageBreak,
+)
+
+from .models import Inventory
 
 
 def index(request):
     return render(request, "index.html")
 
 
-from django.shortcuts import render
-import gspread
-from reportlab.lib.pagesizes import letter, landscape
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from .models import Inventory
-from django.core.files import File
-
-custom_page_width = 4 * landscape(letter)[0]  # Quadruple the width
-custom_page_height = 1 * landscape(letter)[1]  # Double the height
-
+custom_page_width = landscape(letter)[0]
+custom_page_height = landscape(letter)[1]
 custom_page_size = (custom_page_width, custom_page_height)
 
 
 def inventory(request):
-    # get the inventory object
     sgs = gspread.service_account("credentials.json")
     sheet = sgs.open("inventory")
-
-    # Assuming you want the first worksheet
     worksheet = sheet.get_worksheet(0)
-
-    # Fetch all data from the worksheet
     raw_data = worksheet.get_all_values()
-    header = raw_data[0]
-    data_rows = raw_data[1:]
 
-    # Convert parsed data to a format suitable for ReportLab
-    table_data = [header] + data_rows
+    # Process the data
+    tables = []
+    current_table = []
+    for row in raw_data:
+        if any(row):
+            if not any(current_table):
+                if len(row) == 1:
+                    tables.append(row[0])
+                else:
+                    current_table.append(row)
+            else:
+                current_table.append(row)
+        else:
+            if any(current_table):
+                tables.append(current_table)
+                current_table = []
 
-    # Create a new PDF with the name 'inventory.pdf'
+    if any(current_table):
+        tables.append(current_table)
+
     pdf_path = "static/inventory.pdf"
     doc = SimpleDocTemplate(pdf_path, pagesize=landscape(custom_page_size))
+    styles = getSampleStyleSheet()
+    title_style = styles["Heading1"]
+    description_style = styles["BodyText"]
+    title_style.alignment = 1
+    description_style.alignment = 1
 
-    # Create the table with the data
-    table = Table(table_data, repeatRows=1)
+    content = []
+    for item in tables:
+        if isinstance(item, str):
+            if len(item.split()) > 5:
+                para = Paragraph(item, description_style)
+            else:
+                para = Paragraph(item, title_style)
+            content.append(para)
+            content.append(Spacer(1, 0.2 * inch))
+        else:
+            colWidths = [len(max(column, key=len)) * 7 for column in zip(*item)]
+            table = Table(item, colWidths=colWidths, repeatRows=1)
+            table_style = [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.black),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, 0), 12),
+                ("BOTTOMPADDING", (0, 0), (-1, 0), 8),
+                ("TOPPADDING", (0, 0), (-1, 0), 8),
+            ]
+            table.setStyle(TableStyle(table_style))
+            content.append(table)
+            content.append(Spacer(1, 0.5 * inch))
 
-    # Add a grid and other styling
-    table_style = [
-        ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-        ("FONTSIZE", (0, 0), (-1, 0), 14),
-        ("BOTTOMPADDING", (0, 0), (-1, 0), 12),
-        ("BACKGROUND", (0, 1), (-1, -1), colors.beige),
-    ]
-    table.setStyle(TableStyle(table_style))
-    doc.build([table])
+    doc.build(content)
 
-    # Check if the Inventory object exists
     inventory = Inventory.objects.first()
     if not inventory:
         inventory = Inventory()
 
-    # Use Django's FileField handling to save the file
     with open(pdf_path, "rb") as pdf_file:
         inventory.file.save("inventory.pdf", File(pdf_file))
         inventory.save()

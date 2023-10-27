@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {%load static %}
 {% block content %}
-<!-- Don't touch this carousel -->
 <div class="relative max-w-7xl bg-white mx-auto">
     <script defer src="https://unpkg.com/alpinejs@3.2.3/dist/cdn.min.js"></script>
 
@@ -12,7 +11,7 @@
         </div>
 
         <template x-for="(image, index) in images">
-            <figure class="h-[16rem] sm:h-[16rem] rounded-xl" x-show="currentIndex == index + 1"
+            <figure class="h-[16rem] sm:h-[24rem] rounded-xl" x-show="currentIndex == index + 1"
                 x-transition:enter="transition transform duration-300" x-transition:enter-start="opacity-0"
                 x-transition:enter-end="" x-transition:leave="transition transform duration-300"
                 x-transition:leave-start="" x-transition:leave-end="opacity-0">
@@ -65,7 +64,6 @@
         })
     </script>
     <div class="flex flex-wrap">
-        <!-- Company Information Column -->
         <div class="w-1/2  py-2">
             <div class="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-0">
                 <div class="px-0 sm:pt-4 pb-4 pt-4 sm:pb-16 lg:col-span-12 xl:col-span-12">
@@ -102,13 +100,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- Form Column -->
         <div class="w-1/2  py-4">
-            <!-- Form content goes here -->
-            <!-- Your form code goes here -->
             <form class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-                <!-- Form content here -->
                 <div class="px-0 py-4 sm:p-8">
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div class="sm:col-span-3">
@@ -155,7 +148,6 @@
                         Message</button>
                 </div>
             </form>
-            <!-- Form section end -->
         </div>
     </div>
 </div>

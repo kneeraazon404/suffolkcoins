@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="bg-gray-800">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-24 py-2 items-center justify-between">
+    <div class="relative flex h-16 py-2 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <button type="button"
           class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -21,17 +21,17 @@
       </div>
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex flex-shrink-0 items-center">
-          <a href="{% url 'index' %}"><img class="h-16 rounded-sm py-2 rounded-lg object-cover"
+          <a href="{% url 'index' %}"><img class="h-16 rounded-md py-2 rounded-lg object-cover"
               src="{% static 'glogo.png' %}" alt="Suffolkcoins Logo" /></a>
         </div>
         <div class="hidden sm:ml-6 sm:block py-auto items-center py-10">
           <div class="flex space-x-4">
             <a href="{% url 'index' %}"
-              class="text-gray-100 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-xl font-bold">Dashboard</a>
+              class="text-gray-100 hover:bg-gray-700 hover:text-white rounded-md px-3 py-3 text-xl font-medium">Dashboard</a>
             <a href="{% url 'index' %}"
-              class="text-gray-100 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-xl font-medium">Calendar</a>
+              class="text-gray-100 hover:bg-gray-700 hover:text-white rounded-md px-3 py-3 text-xl ">Calendar</a>
             <a href="{% url 'inventory' %}"
-              class="text-gray-100 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-xl font-medium">Inventory</a>
+              class="text-gray-100 hover:bg-gray-700 hover:text-white rounded-md px-3 py-3 text-xl ">Inventory</a>
           </div>
         </div>
       </div>

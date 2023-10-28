@@ -1,12 +1,23 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="max-w-7xl mx-auto text-center py-32">
-  <h1 class="text-3xl font-bold text-indigo-950 py-4">
-    Inventory Data For Download in PDF format
+{% extends "base.html" %} {% block content %}
+<div class="max-w-7xl mx-auto text-center py-8 sm:py-16 lg:py-32">
+  <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-indigo-950 mb-8">
+    Inventory data For download in PDF format
   </h1>
-  <br /><br />
-  <button class="btn bg-indigo-700 text-white px-6 py-2 rounded-md">
-    <a href="{{ pdf_path }}" download>Download PDF</a>
-  </button>
+
+  <a href="{{ pdf_path }}" download>
+    <button
+      class="btn bg-gray-800 hover:bg-gray-800 text-white px-6 py-3 rounded-md transition duration-300 ease-in-out font-bold"
+    >
+      Download PDF
+    </button>
+  </a>
 </div>
+<script>
+  <!-- write a script to get the real time with date -->
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  document.getElementById("date").innerHTML = date;
+</script>
+
 {% endblock %}

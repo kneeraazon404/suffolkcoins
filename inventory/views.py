@@ -1,11 +1,5 @@
-import gspread
-import requests
-from django.core.files import File
 from django.shortcuts import render
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-
-from .models import Inventory
 
 
 def index(request):
@@ -40,6 +34,6 @@ def inventory(request):
 
     # Step 4: Return the PDF as an HTTP response
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'attachment; filename="output.pdf"'
+    response["Content-Disposition"] = 'attachment; filename="inventory.pdf"'
     response.write(request.execute())
     return response

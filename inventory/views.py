@@ -26,7 +26,7 @@ def inventory(request):
     service = build("drive", "v3", credentials=credentials)
 
     # Step 2: Specify the Google Sheet ID
-    SHEET_ID = "1xLivEMUaUeljApC6JKC-i5GetQGaFr4A-R5Y3y_-y0Q"
+    SHEET_ID = "1SJ7sj2YSF-wpH4MwPt_OClkYV4Dlcy0lV9lThSpQXwA"
 
     # Step 3: Export Google Sheet as PDF
     request = service.files().export_media(fileId=SHEET_ID, mimeType="application/pdf")

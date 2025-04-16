@@ -122,4 +122,4 @@ Contributions are welcome! Follow these steps to contribute:
 For questions, suggestions, or feedback, feel free to reach out:  
 
 - **GitHub**: [kneeraazon404](https://github.com/kneeraazon404)  
-- **Email**: [your-email@example.com] (Replace with your actual email if desired)  
+- **Email**: [kneeraazon@gmail.com]

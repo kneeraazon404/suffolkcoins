@@ -115,11 +115,3 @@ Contributions are welcome! Follow these steps to contribute:
    ```  
 5. Submit a pull request.  
 
----
-
-## 📧 Contact  
-
-For questions, suggestions, or feedback, feel free to reach out:  
-
-- **GitHub**: [kneeraazon404](https://github.com/kneeraazon404)  
-- **Email**: [kneeraazon@gmail.com]
